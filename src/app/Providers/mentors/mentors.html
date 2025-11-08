@@ -1,0 +1,49 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+  @for (mentor of mentors; track mentor.name) {
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 p-6 cursor-pointer flex flex-col h-full">
+      <!-- Header -->
+      <div class="flex items-center gap-3 mb-4">
+        <img [src]="mentor.avatar" [alt]="mentor.name" class="w-12 h-12 rounded-full object-cover">
+        <div class="flex-1">
+          <div class="flex items-center gap-2">
+            <h3 class="font-semibold text-gray-900">{{ mentor.name }}</h3>
+            @if (mentor.verified) {
+              <i class="ri-verified-badge-fill text-blue-500 text-sm"></i>
+            }
+          </div>
+          <p class="text-sm text-gray-600">{{ mentor.title }}</p>
+          <p class="text-xs text-gray-500">{{ mentor.company }}</p>
+        </div>
+      </div>
+
+      <!-- Rating & Sessions -->
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-1">
+          <i class="ri-star-fill text-yellow-400 text-sm"></i>
+          <span class="text-sm font-medium text-gray-700">{{ mentor.rating }}</span>
+          <span class="text-xs text-gray-500">({{ mentor.sessions }} sessions)</span>
+        </div>
+        <div class="text-right">
+          <span class="text-lg font-bold text-gray-900">${{ mentor.price }}</span>
+          <span class="text-xs text-gray-500">/hour</span>
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <div class="flex flex-wrap gap-1.5  min-h-[2.5rem]">
+        @for (skill of mentor.skills.slice(0, 2); track skill) {
+          <span class="inline-flex items-center text-xs bg-slate-50 text-slate-600 font-medium px-1.5 py-0.5 rounded border border-slate-200/50 hover:bg-slate-100 hover:border-slate-300 transition-all duration-200">
+            {{ skill }}
+          </span>
+        }
+        @if (mentor.skills.length > 2) {
+          <span class="inline-flex items-center text-xs bg-slate-50 text-slate-600 font-medium px-1.5 py-0.5 rounded border border-slate-200/50 hover:bg-slate-100 hover:border-slate-300 transition-all duration-200">
+            +{{ mentor.skills.length - 2 }}
+          </span>
+        }
+      </div>
+
+
+    </div>
+  }
+</div>

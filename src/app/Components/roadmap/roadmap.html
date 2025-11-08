@@ -1,0 +1,89 @@
+ <!-- Roadmap Cards Grid -->
+   <!-- Filters -->
+  <div class="flex flex-wrap items-center gap-2 mb-8">
+    <div class="flex flex-wrap gap-2">
+      @for (filter of filters; track filter) {
+        <button
+          (click)="selectFilter(filter)"
+          class="px-4 py-2 rounded-full text-xs font-medium transition-all duration-150"
+          [ngClass]="{
+            'bg-blue-600 text-white shadow-sm': selectedFilter === filter,
+            'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50': selectedFilter !== filter
+          }"
+        >
+          {{ filter }}
+        </button>
+      }
+    </div>
+
+   
+  </div> 
+ <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+    @for (roadmap of roadmaps; track roadmap.title) {
+      <div
+        class="group relative bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 p-4 flex flex-col justify-between cursor-pointer"
+      >
+      <!-- Roadmap Info -->
+      <div>
+        <h3 class="font-semibold text-base mb-1.5 text-gray-900 group-hover:text-blue-600 transition-colors duration-150">
+          {{ roadmap.title }}
+        </h3>
+        <p class="text-xs text-gray-500 mb-2">{{ roadmap.difficulty }}</p>
+
+        <!-- Tags -->
+        <div class="flex flex-wrap gap-1.5 mb-3">
+          @for (tag of roadmap.tags; track tag) {
+            <span
+              class="text-[11px] bg-blue-50 text-blue-700 font-medium px-2 py-0.5 rounded-full"
+            >
+              #{{ tag }}
+            </span>
+          }
+        </div>
+      </div>
+
+      <!-- Mentor Availability -->
+      <div class="flex items-center gap-2 text-xs mb-3">
+        <i
+          class="ri-user-star-line"
+          [ngClass]="roadmap.mentorAvailable ? 'text-yellow-500' : 'text-gray-400'"
+        ></i>
+        <span
+          [ngClass]="roadmap.mentorAvailable ? 'text-gray-700 font-medium' : 'text-gray-400'"
+        >
+          {{ roadmap.mentorAvailable ? 'Mentor Available' : 'No mentor yet' }}
+        </span>
+      </div>
+
+      <!-- Author / Followers / Likes Section -->
+      <div class="flex items-start justify-between text-sm text-gray-600 mb-2">
+        <!-- Left Side -->
+        <div class="flex flex-col leading-tight">
+          <span class="flex items-center gap-2 text-gray-700 font-medium">
+            <img [src]="roadmap.avatar" [alt]="roadmap.author" class="w-6 h-6 rounded-full object-cover">
+            {{ roadmap.author }}
+            @if (roadmap.verified) {
+          <i class="ri-verified-badge-fill text-blue-500 text-sm"></i>
+        }
+          </span>
+          <span class="flex items-center gap-1 text-gray-500 text-xs mt-0.5">
+            <i class="ri-group-line text-gray-400"></i>
+            {{ roadmap.followers }} Followers
+          </span>
+        </div>
+
+        <!-- Right Side -->
+        <span class="flex items-center gap-1 text-gray-500">
+          <i class="ri-heart-line"></i>
+          {{ roadmap.likes }}
+        </span>
+      </div>
+
+      <!-- Updated time -->
+      <p class="text-[11px] text-gray-400 flex items-center gap-1 border-t border-gray-100 pt-2">
+        <i class="ri-time-line text-gray-400"></i>
+        Updated {{ roadmap.updated }}
+      </p>
+      </div>
+    }
+  </div>

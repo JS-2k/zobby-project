@@ -1,0 +1,28 @@
+<nav
+  class="fixed top-0 left-0 flex flex-col justify-center items-center bg-gray-900 text-white h-screen w-16 space-y-3 shadow-lg z-50"
+>
+  <ng-container *ngFor="let item of menuItems">
+    <a
+      [routerLink]="item.route"
+      routerLinkActive="text-blue-400"
+      #rla="routerLinkActive"
+      class="relative group flex flex-col items-center justify-center"
+    >
+      <i
+        [class]="
+          item.icon +
+          ' text-2xl cursor-pointer hover:text-blue-400 transition-colors duration-200'
+        "
+      ></i>
+
+      <!-- Menu Title -->
+      <span
+        class="text-xs mt-1 text-center transition-colors duration-200"
+        [class.text-blue-400]="rla.isActive"
+        [class.text-white]="!rla.isActive"
+      >
+        {{ item.title }}
+      </span>
+    </a>
+  </ng-container>
+</nav>
