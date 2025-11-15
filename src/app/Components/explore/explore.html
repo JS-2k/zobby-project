@@ -1,104 +1,119 @@
-<!-- Main Container with padding for fixed header -->
-<div class="min-h-screen bg-base-100 pt-22 md:pt-26">
-  
-  <!-- Fixed Header Section - Adjusted for Sidebar -->
-  <div class="fixed top-0 left-0 md:left-64 right-0 bg-base-100 z-40 border-b border-base-300">
-    <div class="max-w-7xl mx-auto px-4 md:px-6">
-      
-      <!-- Search Bar -->
-      <div class="max-w-3xl py-4">
-        <div class="form-control">
-          <input 
-            type="text" 
-            placeholder="Search communities, courses, or topics..." 
-            class="input input-bordered w-full"
-          />
-        </div>
-      </div>
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+  <div class="max-w-7xl mx-auto px-6 py-12">
 
-      <!-- Category Tabs - Whop Style (No extra borders) -->
-      <div class="overflow-x-auto scrollbar-hide">
-        <div class="flex gap-6 pb-3">
-          <button 
-            *ngFor="let category of categories" 
-            (click)="selectCategory(category)"
-            [class]="selectedCategory === category 
-              ? 'text-sm font-medium whitespace-nowrap text-primary border-b-2 border-primary pb-3' 
-              : 'text-sm font-medium whitespace-nowrap text-base-content/60 hover:text-base-content pb-3'"
-          >
+    <!-- Hero Section -->
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-6">
+        <span class="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse"></span>
+        Discover Your Next Opportunity
+      </div>
+      <h1 class="text-5xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-600 bg-clip-text text-transparent mb-6">
+        Explore & 
+        <span class="text-rotate text-5xl text-primary">
+          <span class="justify-items-center">
+            <span>LEARN</span>
+            <span>GROW</span>
+            <span>BUILD</span>
+            <span>CREATE</span>
+            <span>MASTER</span>
+            <span>SUCCEED</span>
+          </span>
+        </span>
+        <br>with Professionals
+      </h1>
+      <p class="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        Connect with industry experts, join exclusive communities, and accelerate your career growth.
+      </p>
+    </div>
+
+    <!-- Search & Filters -->
+    <div class="max-w-4xl mx-auto mb-12">
+      <div class="bg-white rounded-2xl shadow-xl border border-slate-200/50 p-8">
+        <div class="relative mb-6">
+          <input type="text" placeholder="Search communities, skills, or mentors..." 
+                 class="w-full px-6 py-4 text-lg rounded-xl border-2 border-slate-200 focus:border-primary focus:outline-none transition-colors" />
+          <button class="absolute right-2 top-2 p-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+            <i class="ri-search-line text-lg"></i>
+          </button>
+        </div>
+        
+        <!-- Category Pills -->
+        <div class="flex flex-wrap gap-3 justify-center">
+          <button *ngFor="let category of categories" (click)="selectCategory(category)"
+                  [class]="selectedCategory === category ? 
+                    'px-6 py-3 bg-primary text-white rounded-full font-medium shadow-lg transform scale-105 transition-all' : 
+                    'px-6 py-3 bg-slate-100 text-slate-700 rounded-full font-medium hover:bg-slate-200 hover:scale-105 transition-all'">
             {{ category }}
           </button>
         </div>
       </div>
-
     </div>
-  </div>
 
-  <!-- Grid Cards - Scrollable Content (reduced top margin) -->
-  <div class="max-w-7xl mx-auto px-4 md:px-6 mt-6">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-      
-      <div 
-        *ngFor="let community of communities" 
-        class="card bg-base-100 hover:shadow-md transition-shadow cursor-pointer rounded-lg overflow-hidden border border-base-300"
-      >
-        <!-- Image with Badge -->
-        <figure class="relative h-36">
-          <img 
-            [src]="community.thumbnail" 
-            [alt]="community.title" 
-            class="w-full h-full object-cover"
-          />
-          
-          <!-- Sponsored Badge -->
-          <div *ngIf="community.isSponsored" class="absolute top-2 left-2">
-            <span class="badge badge-neutral badge-xs px-1.5">Ad</span>
+    <!-- Communities Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div *ngFor="let community of communities" 
+           class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl border border-slate-200/50 overflow-hidden transition-all duration-300 hover:-translate-y-2">
+        
+        <!-- Image Header -->
+        <div class="relative h-48 overflow-hidden">
+          <img [src]="community.thumbnail" [alt]="community.title" 
+               class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+          <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold text-slate-700">
+            {{ community.price }}
           </div>
-
-          <!-- Price Badge -->
-          <div class="absolute top-2 right-2">
-            <span class="badge badge-primary text-white badge-sm font-semibold px-2">
-              {{ community.price }}
-            </span>
+          <div *ngIf="community.isSponsored" class="absolute top-4 left-4 bg-yellow-400 text-yellow-900 px-2 py-1 rounded text-xs font-bold">
+            FEATURED
           </div>
-        </figure>
+        </div>
 
-        <!-- Card Body - Compact -->
-        <div class="p-3">
-          
-          <!-- Avatar & Author -->
-          <div class="flex items-center gap-2 mb-2">
+        <!-- Content -->
+        <div class="p-6">
+          <!-- Creator Info -->
+          <div class="flex items-center gap-3 mb-4">
             <div class="avatar">
-              <div class="w-6 rounded-full">
+              <div class="w-10 h-10 rounded-full ring-2 ring-slate-200">
                 <img [src]="community.avatar" [alt]="community.name" />
               </div>
             </div>
-            <span class="text-xs font-medium text-base-content/70 truncate">
-              {{ community.name }}
-            </span>
+            <div>
+              <p class="font-semibold text-slate-900">{{ community.name }}</p>
+              <p class="text-sm text-slate-500">{{ community.category }}</p>
+            </div>
           </div>
 
-          <!-- Title -->
-          <h3 class="text-sm font-semibold leading-tight line-clamp-2 mb-1">
-            {{ community.title }}
-          </h3>
+          <!-- Title & Description -->
+          <h3 class="text-xl font-bold text-slate-900 mb-2 line-clamp-2">{{ community.title }}</h3>
+          <p class="text-slate-600 mb-4 line-clamp-2">{{ community.subtitle }}</p>
 
-          <!-- Subtitle -->
-          <p class="text-xs text-base-content/60 line-clamp-1 mb-2">
-            {{ community.subtitle }}
-          </p>
-
-          <!-- Rating -->
-          <div class="flex items-center gap-1">
-            <span class="text-warning text-xs">★</span>
-            <span class="text-xs font-semibold">{{ community.rating }}</span>
-            <span class="text-xs text-base-content/50">({{ community.reviews }})</span>
+          <!-- Stats -->
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-4">
+              <div class="flex items-center gap-1">
+                <i class="ri-star-fill text-yellow-400"></i>
+                <span class="font-semibold text-slate-900">{{ community.rating }}</span>
+                <span class="text-slate-500 text-sm">({{ community.reviews }})</span>
+              </div>
+              <div class="flex items-center gap-1 text-slate-500">
+                <i class="ri-group-line"></i>
+                <span class="text-sm">{{ community.members }}</span>
+              </div>
+            </div>
           </div>
 
+          <!-- Action Button -->
+          <button class="w-full bg-gradient-to-r from-primary to-primary/80 text-white py-3 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-200">
+            Join Community
+          </button>
         </div>
       </div>
-
     </div>
-  </div>
 
+    <!-- Load More -->
+    <div class="text-center mt-12">
+      <button class="px-8 py-4 bg-white text-slate-700 rounded-xl font-semibold shadow-lg hover:shadow-xl border border-slate-200 hover:scale-105 transition-all">
+        Load More Communities
+      </button>
+    </div>
+
+  </div>
 </div>

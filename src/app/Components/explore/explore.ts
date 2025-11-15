@@ -11,15 +11,8 @@ import { Sessions } from "../sessions/sessions";
   styleUrl: './explore.css',
 })
 export class Explore {
-  tabs = ['Roadmap', 'Mentors', 'Sessions'];
-  selectedTab = 'Roadmap';
-  
-  categories = ['All', 'Tech', 'Business', 'Design', 'Marketing', 'Finance', 'Health', 'Education', 'Music', 'Art', 'Sports', 'Cooking', 'Travel', 'Trading', 'Photography'];
+  categories = ['All', 'Tech', 'Business', 'Design', 'Marketing', 'Finance', 'Health', 'Education', 'Music', 'Art', 'Sports', 'Cooking', 'Travel', 'Photography'];
   selectedCategory = 'All';
-
-  selectTab(tab: string) {
-    this.selectedTab = tab;
-  }
 
   selectCategory(category: string) {
     this.selectedCategory = category;

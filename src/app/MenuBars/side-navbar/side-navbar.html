@@ -4,10 +4,9 @@
   <!-- Logo Section -->
   <div class="px-6 py-5">
     <div class="flex items-center gap-2">
-      <div class="w-7 h-7 bg-gradient-to-br  rounded-lg flex items-center justify-center">
-        <img src="assets/zobby.png" class="w-4 h-4" alt="logo" />
+      <div class="bg-gradient-to-br  rounded-lg flex items-center justify-center">
+        <img src="assets/Vertical.png" alt="logo" class="w-32" />
       </div>
-      <span class="text-xl font-bold text-gray-900">Zobby</span>
     </div>
   </div>
 
@@ -54,9 +53,7 @@
     <div>
       <button (click)="toggleLibrary()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors">
         <div class="w-6 h-6 flex items-center justify-center">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
+          <i class="ri-archive-stack-line"></i>
         </div>
         <span class="text-[15px] font-medium flex-1 text-left">My Library</span>
         <svg class="w-4 h-4 transition-transform" [class.rotate-180]="isLibraryExpanded" fill="none" stroke="currentColor" viewBox="0 0 24 24">
