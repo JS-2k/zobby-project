@@ -18,7 +18,7 @@ interface MenuItem {
   styleUrl: './side-navbar.css',
 })
 export class SideNavbar {
-  isLibraryExpanded = false;
+  isLibraryExpanded = true;
 
   toggleLibrary() {
     this.isLibraryExpanded = !this.isLibraryExpanded;
