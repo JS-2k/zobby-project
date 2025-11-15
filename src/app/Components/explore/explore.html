@@ -1,34 +1,104 @@
-<div class="p-6 text-gray-800 font-inter">
+<!-- Main Container with padding for fixed header -->
+<div class="min-h-screen bg-base-100  md:pt-44">
+  
+  <!-- Fixed Header Section - Adjusted for Sidebar -->
+  <div class="fixed top-0 left-0 md:left-64 right-0 bg-base-100 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-4">
+      
+      <!-- Search Bar -->
+      <div class="max-w-3xl mb-4">
+        <div class="form-control">
+          <input 
+            type="text" 
+            placeholder="Search communities, courses, or topics..." 
+            class="input input-bordered w-full"
+          />
+        </div>
+      </div>
 
-  <!-- Header Section -->
-  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-    <h1 class="text-2xl font-semibold mb-4 sm:mb-0 text-gray-900">Explore Learning Paths & Connect with Mentors</h1>
+      <!-- Category Tabs - Whop Style -->
+      <div class="border-t border-b border-base-300 py-3 -mx-4 px-4 md:-mx-6 md:px-6">
+        <div class="flex gap-4 overflow-x-auto scrollbar-hide">
+          <button 
+            *ngFor="let category of categories" 
+            (click)="selectCategory(category)"
+            [class]="selectedCategory === category 
+              ? 'text-sm font-medium whitespace-nowrap text-primary border-b-2 border-primary pb-1' 
+              : 'text-sm font-medium whitespace-nowrap text-base-content/60 hover:text-base-content pb-1'"
+          >
+            {{ category }}
+          </button>
+        </div>
+      </div>
+
+    </div>
   </div>
 
-  <!-- Tab List -->
-  <div class="flex border-b border-gray-200 mb-6">
-    @for (tab of tabs; track tab) {
-      <button
-        (click)="selectTab(tab)"
-        class="px-6 py-3 text-sm font-medium transition-all duration-150 border-b-2"
-        [ngClass]="{
-          'text-blue-600 border-blue-600': selectedTab === tab,
-          'text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300': selectedTab !== tab
-        }"
+  <!-- Grid Cards - Scrollable Content -->
+  <div class="max-w-7xl mx-auto px-4 md:px-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+      
+      <div 
+        *ngFor="let community of communities" 
+        class="card bg-base-100 hover:shadow-md transition-shadow cursor-pointer rounded-lg overflow-hidden border border-base-300"
       >
-        {{ tab }}
-      </button>
-    }
+        <!-- Image with Badge -->
+        <figure class="relative h-36">
+          <img 
+            [src]="community.thumbnail" 
+            [alt]="community.title" 
+            class="w-full h-full object-cover"
+          />
+          
+          <!-- Sponsored Badge -->
+          <div *ngIf="community.isSponsored" class="absolute top-2 left-2">
+            <span class="badge badge-neutral badge-xs px-1.5">Ad</span>
+          </div>
+
+          <!-- Price Badge -->
+          <div class="absolute top-2 right-2">
+            <span class="badge badge-primary text-white badge-sm font-semibold px-2">
+              {{ community.price }}
+            </span>
+          </div>
+        </figure>
+
+        <!-- Card Body - Compact -->
+        <div class="p-3">
+          
+          <!-- Avatar & Author -->
+          <div class="flex items-center gap-2 mb-2">
+            <div class="avatar">
+              <div class="w-6 rounded-full">
+                <img [src]="community.avatar" [alt]="community.name" />
+              </div>
+            </div>
+            <span class="text-xs font-medium text-base-content/70 truncate">
+              {{ community.name }}
+            </span>
+          </div>
+
+          <!-- Title -->
+          <h3 class="text-sm font-semibold leading-tight line-clamp-2 mb-1">
+            {{ community.title }}
+          </h3>
+
+          <!-- Subtitle -->
+          <p class="text-xs text-base-content/60 line-clamp-1 mb-2">
+            {{ community.subtitle }}
+          </p>
+
+          <!-- Rating -->
+          <div class="flex items-center gap-1">
+            <span class="text-warning text-xs">★</span>
+            <span class="text-xs font-semibold">{{ community.rating }}</span>
+            <span class="text-xs text-base-content/50">({{ community.reviews }})</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
   </div>
 
-
-  @if (selectedTab === 'Mentors') {
-    <app-mentors></app-mentors>
-  }
-  @if (selectedTab === 'Roadmap') {
-    <app-roadmap></app-roadmap>
-  }
-  @if (selectedTab === 'Sessions') {
-    <app-sessions></app-sessions>
-  }
 </div>

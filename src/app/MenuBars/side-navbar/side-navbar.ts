@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 interface MenuItem {
@@ -12,7 +13,7 @@ interface MenuItem {
 
 @Component({
   selector: 'app-side-navbar',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive],
   templateUrl: './side-navbar.html',
   styleUrl: './side-navbar.css',
 })
@@ -47,11 +48,11 @@ export class SideNavbar {
       label: 'Messages',
       route: '/messages'
     },
-    // {
-    //   icon: 'ri-team-line',
-    //   label: 'Network',
-    //   route: '/networks'
-    // },
+    {
+      icon: 'ri-team-line',
+      label: 'Network',
+      route: '/networks'
+    },
     {
       icon: 'ri-notification-3-line',
       label: 'Notifications',

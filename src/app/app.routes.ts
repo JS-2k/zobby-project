@@ -13,6 +13,7 @@ import { MySheets } from './Components/Library/my-sheets/my-sheets';
 import { MyCommunities } from './Components/Library/my-communities/my-communities';
 
 export const routes: Routes = [
+    {path : '', title:'Home | Zobby', component : Home},
     {path : 'home', title:'Home | Zobby', component : Home},
     {path : 'explore', title:'Explore | Zobby', component : Explore},
     {path : 'profile', title:'Profile | Zobby', component : Profile},
