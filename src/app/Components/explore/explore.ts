@@ -14,7 +14,7 @@ export class Explore {
   tabs = ['Roadmap', 'Mentors', 'Sessions'];
   selectedTab = 'Roadmap';
   
-  categories = ['All', 'Tech', 'Business', 'Design', 'Marketing', 'Finance', 'Health', 'Education', 'Music', 'Art', 'Sports', 'Cooking', 'Travel', 'Photography'];
+  categories = ['All', 'Tech', 'Business', 'Design', 'Marketing', 'Finance', 'Health', 'Education', 'Music', 'Art', 'Sports', 'Cooking', 'Travel', 'Trading', 'Photography'];
   selectedCategory = 'All';
 
   selectTab(tab: string) {
