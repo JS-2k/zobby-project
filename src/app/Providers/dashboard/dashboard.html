@@ -86,17 +86,18 @@
       <i class="ri-add-line"></i>
       Create Session
     </button>
-    <button class="btn btn-secondary">
+    <button class="btn btn-primary">
       <i class="ri-add-circle-line"></i>
       Create Offering
     </button>
-    <button class="btn btn-accent">
+    <button class="btn btn-primary">
       <i class="ri-calendar-line"></i>
       View Bookings
     </button>
-    <button class="btn btn-info">
+    <button class="btn btn-primary relative">
       <i class="ri-message-3-line"></i>
-      Messages ({{ stats.unreadMessages }})
+      Messages
+      <span class="badge badge-error text-white badge-sm ">{{ stats.unreadMessages }}</span>
     </button>
   </div>
 
@@ -176,7 +177,7 @@
           Upcoming Sessions
         </h2>
         <div class="space-y-4">
-          <div *ngFor="let session of upcomingSessions" class="flex items-center justify-between p-4 bg-base-100 rounded-lg">
+          <div *ngFor="let session of upcomingSessions.slice(0, 3)" class="flex items-center justify-between p-4 bg-base-100 rounded-lg">
             <div class="flex items-center space-x-3">
               <div class="badge badge-primary">{{ session.time }}</div>
               <div>
@@ -187,6 +188,9 @@
             <div class="text-right">
               <button class="btn btn-sm btn-outline">Join</button>
             </div>
+          </div>
+          <div *ngIf="upcomingSessions.length > 3" class="text-center pt-2">
+            <button class="btn btn-sm btn-primary" (click)="viewAllSessions()">View More ({{ upcomingSessions.length - 3 }})</button>
           </div>
         </div>
       </div>
@@ -200,7 +204,7 @@
           Booking Requests
         </h2>
         <div class="space-y-4">
-          <div *ngFor="let request of bookingRequests" class="flex items-center justify-between p-4 bg-base-100 rounded-lg">
+          <div *ngFor="let request of bookingRequests.slice(0, 3)" class="flex items-center justify-between p-4 bg-base-100 rounded-lg">
             <div>
               <p class="font-semibold text-base-content">{{ request.student }}</p>
               <p class="text-sm text-base-content/70">{{ request.time }}</p>
@@ -209,6 +213,9 @@
               <button class="btn btn-sm btn-success">Approve</button>
               <button class="btn btn-sm btn-error">Decline</button>
             </div>
+          </div>
+          <div *ngIf="bookingRequests.length > 3" class="text-center pt-2">
+            <button class="btn btn-sm btn-primary" (click)="viewAllRequests()">View More ({{ bookingRequests.length - 3 }})</button>
           </div>
         </div>
       </div>

@@ -305,13 +305,18 @@ export class Dashboard {
   upcomingSessions = [
     { time: '03:00 PM', type: '1:1 Career Mentoring', student: 'Priya Sharma' },
     { time: '05:30 PM', type: 'Portfolio Review Session', student: 'Arun Kumar' },
-    { time: 'Tomorrow 6 PM', type: 'Angular Coaching (Batch)', student: '12 students' }
+    { time: 'Tomorrow 6 PM', type: 'Angular Coaching (Batch)', student: '12 students' },
+    { time: 'Tomorrow 8 PM', type: 'React Workshop', student: 'Sarah Wilson' },
+    { time: 'Friday 2 PM', type: 'Code Review Session', student: 'Mike Johnson' }
   ];
 
   // Booking Requests
   bookingRequests = [
     { student: 'Arun Kumar', time: '4 PM Today' },
-    { student: 'Sneha T', time: 'Tomorrow 11AM' }
+    { student: 'Sneha T', time: 'Tomorrow 11AM' },
+    { student: 'Rahul Patel', time: 'Wednesday 3 PM' },
+    { student: 'Lisa Chen', time: 'Thursday 10 AM' },
+    { student: 'David Brown', time: 'Friday 5 PM' }
   ];
 
   // Recent Reviews
@@ -328,5 +333,15 @@ export class Dashboard {
       stars.push(i <= Math.floor(rating));
     }
     return stars;
+  }
+
+  viewAllSessions() {
+    // Navigate to sessions page
+    console.log('Navigating to all sessions page');
+  }
+
+  viewAllRequests() {
+    // Navigate to booking requests page
+    console.log('Navigating to all booking requests page');
   }
 }
