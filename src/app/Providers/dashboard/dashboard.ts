@@ -234,7 +234,7 @@ export class Dashboard {
     
     const chartNames = {
       earnings: 'Earnings Trend',
-      sessions: 'Sessions'
+      sessions: this.selectedMetric
     };
     
     return `${periodNames[this.selectedPeriod as keyof typeof periodNames]} ${chartNames[type as keyof typeof chartNames]}`;
