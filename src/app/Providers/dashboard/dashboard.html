@@ -1,1 +1,261 @@
-<p>dashboard works!</p>
+<div class="min-h-screen bg-base-100 p-6">
+  <!-- Header Section -->
+  <div class="mb-8">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+      <div>
+        <h1 class="text-4xl font-bold text-base-content mb-2">Dashboard</h1>
+        <p class="text-base-content/70">Monitor your mentoring performance and earnings</p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4 mt-4 md:mt-0">
+        <select class="select select-bordered" [(ngModel)]="selectedPeriod" (change)="updateCharts()">
+          <option value="week">This Week</option>
+          <option value="month" selected>This Month</option>
+          <option value="quarter">This Quarter</option>
+          <option value="year">This Year</option>
+        </select>
+        <input type="date" class="input input-bordered" [(ngModel)]="selectedDate" (change)="updateCharts()">
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="card bg-base-200">
+      <div class="card-body">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-base-content/70 text-sm">Total Earnings</p>
+            <p class="text-3xl font-bold text-base-content">${{ stats.totalEarnings.toLocaleString() }}</p>
+            <p class="text-success text-sm mt-1">+{{ stats.monthlyGrowth }}% this month</p>
+          </div>
+          <i class="ri-wallet-3-line text-4xl text-purple-500"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-base-200">
+      <div class="card-body">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-base-content/70 text-sm">Total Sessions</p>
+            <p class="text-3xl font-bold text-base-content">{{ stats.totalSessions }}</p>
+            <p class="text-base-content/70 text-sm mt-1">{{ stats.avgSessionDuration }}min avg duration</p>
+          </div>
+          <i class="ri-presentation-line text-4xl text-purple-500"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-base-200">
+      <div class="card-body">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-base-content/70 text-sm">Active Users</p>
+            <p class="text-3xl font-bold text-base-content">{{ stats.activeUsers.toLocaleString() }}</p>
+            <p class="text-base-content/70 text-sm mt-1">{{ stats.completionRate }}% completion rate</p>
+          </div>
+          <i class="ri-group-line text-4xl text-purple-500"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-base-200">
+      <div class="card-body">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-base-content/70 text-sm">Overall Rating</p>
+            <div class="flex items-center space-x-2">
+              <p class="text-3xl font-bold text-base-content">{{ stats.overallRating }}</p>
+              <div class="flex">
+                <i *ngFor="let star of getStars(stats.overallRating)" 
+                   class="ri-star-fill text-yellow-500 text-lg" 
+                   [class.text-base-content/30]="!star"></i>
+              </div>
+            </div>
+            <p class="text-base-content/70 text-sm mt-1">User feedback</p>
+          </div>
+          <i class="ri-star-line text-4xl text-purple-500"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <!-- Earnings Chart -->
+    <div class="card bg-base-200">
+      <div class="card-body">
+        <div *ngIf="isLoading" class="space-y-4">
+          <div class="skeleton h-6 w-48"></div>
+          <div class="skeleton h-64 w-full"></div>
+        </div>
+        <div *ngIf="!isLoading">
+          <h2 class="card-title text-xl mb-4">
+            <i class="ri-line-chart-line text-purple-500"></i>
+            {{ getChartTitle('earnings') }}
+          </h2>
+          <apx-chart
+            [series]="earningsChart.series"
+            [chart]="earningsChart.chart"
+            [colors]="earningsChart.colors"
+            [fill]="earningsChart.fill"
+            [stroke]="earningsChart.stroke"
+            [xaxis]="earningsChart.xaxis"
+            [yaxis]="earningsChart.yaxis"
+            [grid]="earningsChart.grid"
+            [tooltip]="earningsChart.tooltip">
+          </apx-chart>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sessions Chart -->
+    <div class="card bg-base-200">
+      <div class="card-body">
+        <div *ngIf="isLoading" class="space-y-4">
+          <div class="flex justify-between items-center">
+            <div class="skeleton h-6 w-48"></div>
+            <div class="skeleton h-8 w-32"></div>
+          </div>
+          <div class="skeleton h-64 w-full"></div>
+        </div>
+        <div *ngIf="!isLoading">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="card-title text-xl">
+              <i class="ri-bar-chart-line text-purple-500"></i>
+              {{ getChartTitle('sessions') }}
+            </h2>
+            <select class="select select-bordered select-sm" [(ngModel)]="selectedMetric" (change)="updateSessionsChart()">
+              <option value="sessions">Sessions</option>
+              <option value="courses">Courses</option>
+              <option value="roadmaps">Roadmap Sales</option>
+            </select>
+          </div>
+          <apx-chart
+            [series]="sessionsChart.series"
+            [chart]="sessionsChart.chart"
+            [colors]="sessionsChart.colors"
+            [plotOptions]="sessionsChart.plotOptions"
+            [xaxis]="sessionsChart.xaxis"
+            [yaxis]="sessionsChart.yaxis"
+            [grid]="sessionsChart.grid">
+          </apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Bottom Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Recent Activities -->
+    <div class="card bg-base-200">
+      <div class="card-body">
+        <div *ngIf="isLoading" class="space-y-4">
+          <div class="skeleton h-6 w-40"></div>
+          <div *ngFor="let i of [1,2,3,4]" class="flex items-center justify-between p-4 bg-base-100 rounded-lg">
+            <div class="flex items-center space-x-3">
+              <div class="skeleton w-10 h-10 rounded-full"></div>
+              <div class="space-y-2">
+                <div class="skeleton h-4 w-24"></div>
+                <div class="skeleton h-3 w-32"></div>
+                <div class="skeleton h-3 w-16"></div>
+              </div>
+            </div>
+            <div class="text-right space-y-2">
+              <div class="skeleton h-4 w-12"></div>
+              <div class="skeleton h-5 w-16"></div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!isLoading">
+          <h2 class="card-title text-xl mb-4">
+            <i class="ri-history-line text-purple-500"></i>
+            Recent Activities
+          </h2>
+          <div class="space-y-4">
+            <div *ngFor="let activity of recentActivities" class="flex items-center justify-between p-4 bg-base-100 rounded-lg">
+              <div class="flex items-center space-x-3">
+                <div class="avatar placeholder">
+                  <div class="bg-primary text-primary-content rounded-full w-10">
+                    <i class="ri-user-line"></i>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-semibold text-base-content">{{ activity.user }}</p>
+                  <p class="text-sm text-base-content/70">{{ activity.subject }}</p>
+                  <p class="text-xs text-base-content/50">{{ activity.time }}</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-green-600">${{ activity.amount }}</p>
+                <span class="badge badge-sm" [ngClass]="{
+                  'badge-primary': activity.type === 'session',
+                  'badge-secondary': activity.type === 'course',
+                  'badge-accent': activity.type === 'workshop',
+                  'badge-info': activity.type === 'consultation'
+                }">{{ activity.type }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Performing Courses -->
+    <div class="card bg-base-200">
+      <div class="card-body">
+        <div *ngIf="isLoading" class="space-y-4">
+          <div class="skeleton h-6 w-48"></div>
+          <div *ngFor="let i of [1,2,3,4]" class="flex items-center justify-between p-4 bg-base-100 rounded-lg">
+            <div class="flex items-center space-x-3">
+              <div class="skeleton w-8 h-8 rounded"></div>
+              <div class="space-y-2">
+                <div class="skeleton h-4 w-32"></div>
+                <div class="skeleton h-3 w-20"></div>
+                <div class="skeleton h-3 w-16"></div>
+              </div>
+            </div>
+            <div class="text-right space-y-2">
+              <div class="skeleton h-4 w-16"></div>
+              <div class="skeleton h-3 w-12"></div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!isLoading">
+          <h2 class="card-title text-xl mb-4">
+            <i class="ri-star-line text-purple-500"></i>
+            Top Performing Courses
+          </h2>
+          <div class="space-y-4">
+            <div *ngFor="let course of topCourses; let i = index" class="flex items-center justify-between p-4 bg-base-100 rounded-lg">
+              <div class="flex items-center space-x-3">
+                <div class="badge badge-lg" [ngClass]="{
+                  'badge-primary': i === 0,
+                  'badge-secondary': i === 1,
+                  'badge-accent': i === 2,
+                  'badge-neutral': i === 3
+                }">
+                  {{ i + 1 }}
+                </div>
+                <div>
+                  <p class="font-semibold text-base-content">{{ course.name }}</p>
+                  <p class="text-sm text-base-content/70">{{ course.users }} users</p>
+                  <div class="flex items-center space-x-1 mt-1">
+                    <i class="ri-star-fill text-yellow-500 text-xs"></i>
+                    <span class="text-xs text-base-content/70">{{ course.rating }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-green-600">${{ course.revenue.toLocaleString() }}</p>
+                <p class="text-xs text-base-content/50">Revenue</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
