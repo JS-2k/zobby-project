@@ -48,8 +48,24 @@ export class Dashboard {
     chart: {
       type: 'area',
       height: 300,
-      toolbar: { show: false },
-      background: 'transparent'
+      toolbar: {
+        show: true,
+        tools: {
+          download: true,
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: true
+        }
+      },
+      background: 'transparent',
+      zoom: {
+        enabled: true,
+        type: 'x',
+        autoScaleYaxis: true
+      }
     },
     colors: ['#8B5CF6'],
     fill: {
@@ -116,23 +132,27 @@ export class Dashboard {
     completionRate: 87,
     overallRating: 4.3,
     monthlyGrowth: 12.5,
-    avgSessionDuration: 45
+    avgSessionDuration: 45,
+    followers: 2847,
+    followerGrowth: 34,
+    activeSubscriptions: 42,
+    unreadMessages: 5
   };
 
   // Recent Activities
   recentActivities = [
-    { type: 'session', user: 'John Doe', subject: 'Angular Development', time: '2 hours ago', amount: 120 },
-    { type: 'course', user: 'Jane Smith', subject: 'React Fundamentals', time: '4 hours ago', amount: 89 },
-    { type: 'workshop', user: 'Mike Johnson', subject: 'Node.js Workshop', time: '1 day ago', amount: 250 },
-    { type: 'consultation', user: 'Sarah Wilson', subject: 'Career Guidance', time: '2 days ago', amount: 75 }
+    { type: 'session', user: 'John Doe', subject: 'Angular Development', time: '2 hours ago', amount: 120, avatar: 'https://i.pravatar.cc/40?img=1' },
+    { type: 'course', user: 'Jane Smith', subject: 'React Fundamentals', time: '4 hours ago', amount: 89, avatar: 'https://i.pravatar.cc/40?img=2' },
+    { type: 'workshop', user: 'Mike Johnson', subject: 'Node.js Workshop', time: '1 day ago', amount: 250, avatar: 'https://i.pravatar.cc/40?img=3' },
+    { type: 'consultation', user: 'Sarah Wilson', subject: 'Career Guidance', time: '2 days ago', amount: 75, avatar: 'https://i.pravatar.cc/40?img=4' }
   ];
 
   // Top Performing Courses
   topCourses = [
-    { name: 'Full Stack Development', users: 234, revenue: 18720, rating: 4.9 },
-    { name: 'Angular Mastery', users: 189, revenue: 15120, rating: 4.8 },
-    { name: 'React Advanced', users: 156, revenue: 12480, rating: 4.7 },
-    { name: 'Node.js Complete', users: 143, revenue: 11440, rating: 4.6 }
+    { name: 'Full Stack Development', users: 234, revenue: 18720, rating: 4.9, image: 'https://picsum.photos/48/48?random=1' },
+    { name: 'Angular Mastery', users: 189, revenue: 15120, rating: 4.8, image: 'https://picsum.photos/48/48?random=2' },
+    { name: 'React Advanced', users: 156, revenue: 12480, rating: 4.7, image: 'https://picsum.photos/48/48?random=3' },
+    { name: 'Node.js Complete', users: 143, revenue: 11440, rating: 4.6, image: 'https://picsum.photos/48/48?random=4' }
   ];
 
   // Data sets for different periods
@@ -177,6 +197,26 @@ export class Dashboard {
         name: 'Earnings',
         data: data.earnings
       }],
+      chart: {
+        ...this.earningsChart.chart,
+        toolbar: {
+          show: true,
+          tools: {
+            download: true,
+            selection: true,
+            zoom: true,
+            zoomin: true,
+            zoomout: true,
+            pan: true,
+            reset: true
+          }
+        },
+        zoom: {
+          enabled: true,
+          type: 'x',
+          autoScaleYaxis: true
+        }
+      },
       xaxis: {
         ...this.earningsChart.xaxis,
         categories: data.categories
@@ -220,7 +260,11 @@ export class Dashboard {
       completionRate: 87,
       overallRating: 4.3,
       monthlyGrowth: 12.5,
-      avgSessionDuration: 45
+      avgSessionDuration: 45,
+      followers: Math.round(2847 * multiplier),
+      followerGrowth: 34,
+      activeSubscriptions: Math.round(42 * multiplier),
+      unreadMessages: 5
     };
   }
 
@@ -256,6 +300,27 @@ export class Dashboard {
       }
     };
   }
+
+  // Upcoming Sessions
+  upcomingSessions = [
+    { time: '03:00 PM', type: '1:1 Career Mentoring', student: 'Priya Sharma' },
+    { time: '05:30 PM', type: 'Portfolio Review Session', student: 'Arun Kumar' },
+    { time: 'Tomorrow 6 PM', type: 'Angular Coaching (Batch)', student: '12 students' }
+  ];
+
+  // Booking Requests
+  bookingRequests = [
+    { student: 'Arun Kumar', time: '4 PM Today' },
+    { student: 'Sneha T', time: 'Tomorrow 11AM' }
+  ];
+
+  // Recent Reviews
+  recentReviews = [
+    { student: 'Arun', rating: 5, comment: 'Very helpful session, learned a lot!', avatar: 'https://i.pravatar.cc/32?img=5' },
+    { student: 'Sneha', rating: 4, comment: 'Good session, clear explanations', avatar: 'https://i.pravatar.cc/32?img=6' },
+    { student: 'Rahul', rating: 5, comment: 'Excellent mentor, highly recommended', avatar: 'https://i.pravatar.cc/32?img=7' },
+    { student: 'Priya', rating: 5, comment: 'Amazing guidance for career growth', avatar: 'https://i.pravatar.cc/32?img=8' }
+  ];
 
   getStars(rating: number): boolean[] {
     const stars = [];

@@ -50,19 +50,6 @@
       <div class="card-body">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-base-content/70 text-sm">Active Users</p>
-            <p class="text-3xl font-bold text-base-content">{{ stats.activeUsers.toLocaleString() }}</p>
-            <p class="text-base-content/70 text-sm mt-1">{{ stats.completionRate }}% completion rate</p>
-          </div>
-          <i class="ri-group-line text-4xl text-purple-500"></i>
-        </div>
-      </div>
-    </div>
-
-    <div class="card bg-base-200">
-      <div class="card-body">
-        <div class="flex items-center justify-between">
-          <div>
             <p class="text-base-content/70 text-sm">Overall Rating</p>
             <div class="flex items-center space-x-2">
               <p class="text-3xl font-bold text-base-content">{{ stats.overallRating }}</p>
@@ -78,6 +65,39 @@
         </div>
       </div>
     </div>
+
+    <div class="card bg-base-200">
+      <div class="card-body">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-base-content/70 text-sm">Active Subscriptions</p>
+            <p class="text-3xl font-bold text-base-content">{{ stats.activeSubscriptions }}</p>
+            <p class="text-base-content/70 text-sm mt-1">Monthly recurring</p>
+          </div>
+          <i class="ri-refresh-line text-4xl text-purple-500"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <button class="btn btn-primary">
+      <i class="ri-add-line"></i>
+      Create Session
+    </button>
+    <button class="btn btn-secondary">
+      <i class="ri-add-circle-line"></i>
+      Create Offering
+    </button>
+    <button class="btn btn-accent">
+      <i class="ri-calendar-line"></i>
+      View Bookings
+    </button>
+    <button class="btn btn-info">
+      <i class="ri-message-3-line"></i>
+      Messages ({{ stats.unreadMessages }})
+    </button>
   </div>
 
   <!-- Charts Section -->
@@ -146,6 +166,55 @@
 
 
 
+  <!-- Upcoming Sessions & Booking Requests -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <!-- Upcoming Sessions -->
+    <div class="card bg-base-200">
+      <div class="card-body">
+        <h2 class="card-title text-xl mb-4">
+          <i class="ri-calendar-check-line text-purple-500"></i>
+          Upcoming Sessions
+        </h2>
+        <div class="space-y-4">
+          <div *ngFor="let session of upcomingSessions" class="flex items-center justify-between p-4 bg-base-100 rounded-lg">
+            <div class="flex items-center space-x-3">
+              <div class="badge badge-primary">{{ session.time }}</div>
+              <div>
+                <p class="font-semibold text-base-content">{{ session.type }}</p>
+                <p class="text-sm text-base-content/70">Student: {{ session.student }}</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <button class="btn btn-sm btn-outline">Join</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking Requests -->
+    <div class="card bg-base-200">
+      <div class="card-body">
+        <h2 class="card-title text-xl mb-4">
+          <i class="ri-notification-3-line text-purple-500"></i>
+          Booking Requests
+        </h2>
+        <div class="space-y-4">
+          <div *ngFor="let request of bookingRequests" class="flex items-center justify-between p-4 bg-base-100 rounded-lg">
+            <div>
+              <p class="font-semibold text-base-content">{{ request.student }}</p>
+              <p class="text-sm text-base-content/70">{{ request.time }}</p>
+            </div>
+            <div class="flex space-x-2">
+              <button class="btn btn-sm btn-success">Approve</button>
+              <button class="btn btn-sm btn-error">Decline</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bottom Section -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <!-- Recent Activities -->
@@ -176,9 +245,9 @@
           <div class="space-y-4">
             <div *ngFor="let activity of recentActivities" class="flex items-center justify-between p-4 bg-base-100 rounded-lg">
               <div class="flex items-center space-x-3">
-                <div class="avatar placeholder">
-                  <div class="bg-primary text-primary-content rounded-full w-10">
-                    <i class="ri-user-line"></i>
+                <div class="avatar">
+                  <div class="w-10 rounded-full">
+                    <img [src]="activity.avatar" [alt]="activity.user" class="w-full h-full object-cover">
                   </div>
                 </div>
                 <div>
@@ -224,20 +293,18 @@
         </div>
         <div *ngIf="!isLoading">
           <h2 class="card-title text-xl mb-4">
-            <i class="ri-star-line text-purple-500"></i>
-            Top Performing Courses
+            <i class="ri-shopping-cart-line text-purple-500"></i>
+            Recent Earning Courses
           </h2>
           <div class="space-y-4">
             <div *ngFor="let course of topCourses; let i = index" class="flex items-center justify-between p-4 bg-base-100 rounded-lg">
               <div class="flex items-center space-x-3">
-                <div class="badge badge-lg" [ngClass]="{
-                  'badge-primary': i === 0,
-                  'badge-secondary': i === 1,
-                  'badge-accent': i === 2,
-                  'badge-neutral': i === 3
-                }">
-                  {{ i + 1 }}
+                <div class="avatar">
+                  <div class="w-12 h-12 rounded-lg">
+                    <img [src]="course.image" [alt]="course.name" class="w-full h-full object-cover rounded-lg">
+                  </div>
                 </div>
+               
                 <div>
                   <p class="font-semibold text-base-content">{{ course.name }}</p>
                   <p class="text-sm text-base-content/70">{{ course.users }} users</p>
@@ -253,6 +320,36 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Reviews -->
+  <div class="card bg-base-200 mt-8">
+    <div class="card-body">
+      <h2 class="card-title text-xl mb-4">
+        <i class="ri-star-line text-purple-500"></i>
+        Recent Reviews
+      </h2>
+      <div class="flex space-x-4 overflow-x-auto pb-4">
+        <div *ngFor="let review of recentReviews" class="flex-none w-80 p-4 bg-base-100 rounded-lg">
+          <div class="flex items-center space-x-3 mb-2">
+            <div class="avatar">
+              <div class="w-8 rounded-full">
+                <img [src]="review.avatar" [alt]="review.student">
+              </div>
+            </div>
+            <div>
+              <p class="font-semibold text-base-content">{{ review.student }}</p>
+              <div class="flex">
+                <i *ngFor="let star of getStars(review.rating)" 
+                   class="ri-star-fill text-yellow-500 text-sm" 
+                   [class.text-base-content/30]="!star"></i>
+              </div>
+            </div>
+          </div>
+          <p class="text-sm text-base-content/70">"{{ review.comment }}"</p>
         </div>
       </div>
     </div>
